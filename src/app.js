@@ -104,6 +104,7 @@ const getSnyderSquareGraphic = ({x = 0, y = 0, size}) => {
  * @param {number} [parameter.x] Default: 0
  * @param {number} [parameter.y] Default: 0
  * @return {PIXI.Texture}
+ * TODO: change to use renderer to generate texture (graphics.genereateTexture() is deprecated D: )
  */
 const getSnyderSquareTexture = R.pipe(getSnyderSquareGraphic, x => x.generateTexture());
 
