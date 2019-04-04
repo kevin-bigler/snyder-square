@@ -1,8 +1,10 @@
 import * as PIXI from 'pixi.js';
 import Colors from './main/Colors';
+import * as R from 'ramda';
+
+const snyderSquareBorderWidth = 2;
 
 const initRenderer = () => {
-
     const width = 800;
     const height = 600;
 
@@ -21,7 +23,6 @@ const initRenderer = () => {
 };
 
 const drawSquareTest = (stage) => {
-
     const squareSize = 75;
     const squareColor = new Colors().squareColor;
     const squareBorderColor = new Colors().borderColor;
@@ -35,8 +36,8 @@ const drawSquareTest = (stage) => {
     const tryStackOverflow = () => {
         const graphics = new PIXI.Graphics();
 
-        graphics.beginFill(squareColor);
         graphics.lineStyle(borderWidth, squareBorderColor);
+        graphics.beginFill(squareColor);
         graphics.drawRect(x, y, squareSize, squareSize);
 
         stage.addChild(graphics);
@@ -84,7 +85,60 @@ const drawSquareTest = (stage) => {
 
 };
 
-const { renderer, stage } = initRenderer();
-drawSquareTest(stage);
+const getSnyderSquareGraphic = ({x = 0, y = 0, size}) => {
+    const graphics = new PIXI.Graphics();
 
+    const colors = new Colors().snyderSquare();
+    graphics.lineStyle(snyderSquareBorderWidth, colors.borderColor);
+    graphics.beginFill(colors.color);
+    graphics.drawRect(x, y, size, size);
+
+    return graphics;
+};
+
+/**
+ * Get square as a texture, from a snyder square graphics object
+ *
+ * @param {Object} parameter
+ * @param {number} parameter.size
+ * @param {number} [parameter.x] Default: 0
+ * @param {number} [parameter.y] Default: 0
+ * @return {PIXI.Texture}
+ */
+const getSnyderSquareTexture = R.pipe(getSnyderSquareGraphic, x => x.generateTexture());
+
+/**
+ * Get snyder square as a sprite, given a snyder square texture
+ *
+ * @param {PIXI.Texture} texture snyder square texture
+ * @param {number} [size] Height and width of the snyder square sprite
+ * @param {number} [x] Default: 0
+ * @param {number} [y] Default: 0
+ * @returns {PIXI.Sprite}
+ */
+const getSnyderSquareSprite = ({texture, size, x = 0, y = 0}) => {
+    const sprite = new PIXI.Sprite(texture);
+
+    sprite.x = x;
+    sprite.y = y;
+
+    if (size !== undefined) {
+        sprite.height = size;
+        sprite.width = size;
+    }
+
+    return sprite;
+};
+
+const { renderer, stage } = initRenderer();
+// drawSquareTest(stage);
+const size = renderer.screen.height / 4;
+const x = renderer.screen.width / 2 - size / 2;
+const y = renderer.screen.height / 2 - size / 2;
+// const square = getSnyderSquare({x, y, size});
+
+const texture = getSnyderSquareTexture({size});
+const sprite = getSnyderSquareSprite({texture, size, x, y});
+
+stage.addChild(sprite);
 renderer.render(stage);

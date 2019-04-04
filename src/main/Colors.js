@@ -7,4 +7,11 @@ export default class Colors {
     clearColor = this.white;
     squareColor = this.clearColor;
     borderColor = 'black'; // this.black;
+
+    snyderSquare() {
+        return {
+            borderColor: this.black,
+            color: this.white
+        };
+    }
 }
