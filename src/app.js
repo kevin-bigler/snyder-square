@@ -15,74 +15,7 @@ const initRenderer = () => {
     // create the root of the scene graph
     const stage = new PIXI.Container();
 
-    // TODO: move these 2 lines to like a "create box" function
-    // const container = new PIXI.Container();
-    // stage.addChild(container);
-
     return {renderer, stage};
-};
-
-const drawSquareTest = (stage) => {
-    const squareSize = 75;
-    const squareColor = new Colors().squareColor;
-    const squareBorderColor = new Colors().borderColor;
-    const borderWidth = 10;
-    const x = 25;
-    const y = 40;
-
-    /**
-     * Solution from https://stackoverflow.com/questions/22073350/draw-a-rectangle-with-pixi-js
-     */
-    const tryStackOverflow = () => {
-        const graphics = new PIXI.Graphics();
-
-        graphics.lineStyle(borderWidth, squareBorderColor);
-        graphics.beginFill(squareColor);
-        graphics.drawRect(x, y, squareSize, squareSize);
-
-        stage.addChild(graphics);
-    };
-    tryStackOverflow();
-
-    return;
-
-    // TODO: rest of code is obsolete/unreachable at least atm, while trying other solutions
-
-    const squareTexture = getSquareTexture(squareSize, squareColor);
-    const squareSprite = createSquareSprite(squareTexture, x, y, squareSize);
-    stage.addChild(squareSprite);
-
-    function createSquareSprite(texture, x, y, size) {
-        const squareSprite = new PIXI.Sprite(texture);
-
-        squareSprite.x = x;
-        squareSprite.y = y;
-        squareSprite.width = size;
-        squareSprite.height = size;
-
-        return squareSprite;
-    }
-
-    function createSquare(x, y, size, color) {
-        const square = new PIXI.Graphics();
-
-        square.lineStyle(2, 'black', 1);
-        square.beginFill(color, 1);
-        square.drawRect(x, y, size, size);
-
-        return square;
-    }
-
-    /**
-     * Used to make a square sprite
-     * @param size
-     * @param squareColor
-     * @returns {*}
-     */
-    function getSquareTexture(size, squareColor) {
-        return createSquare(0, 0, squareSize, squareColor).generateTexture();
-    }
-
 };
 
 const getSnyderSquareGraphic = ({x = 0, y = 0, size}) => {
@@ -131,15 +64,26 @@ const getSnyderSquareSprite = ({texture, size, x = 0, y = 0}) => {
     return sprite;
 };
 
+
+
 const { renderer, stage } = initRenderer();
-// drawSquareTest(stage);
+
+const snyderSquareContainer = new PIXI.Container();
+stage.addChild(snyderSquareContainer);
+
 const size = renderer.screen.height / 4;
 const x = renderer.screen.width / 2 - size / 2;
 const y = renderer.screen.height / 2 - size / 2;
-// const square = getSnyderSquare({x, y, size});
 
 const texture = getSnyderSquareTexture({size});
 const sprite = getSnyderSquareSprite({texture, size, x, y});
 
-stage.addChild(sprite);
+snyderSquareContainer.addChild(sprite);
+
+[0..9].map(num => {
+    const {x, y} = getCoords(num);
+    const numeralSquare = getSnyderSquareSprite({texture, size: size * 0.33, x, y});
+    snyderSquareContainer.addChild(numeralSquare);
+});
+
 renderer.render(stage);
