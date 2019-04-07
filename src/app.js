@@ -1,3 +1,5 @@
+'use strict';
+
 import * as PIXI from 'pixi.js';
 import initRenderer from './main/initRenderer';
 import getLittleSquare from "./main/getLittleSquares";
@@ -27,10 +29,19 @@ const snyderSquareSprite = getSnyderSquareSprite({texture, size: bgSquareSize, x
 
 snyderSquareContainer.addChild(snyderSquareSprite);
 
+//
+// const sprites = R.range(0, 9)
+//     .map(flatTo2d)
+//     .map(getLittleSquare({size: parseInt(bgSquareSize / 3), borderWidth: 2}));
 
-const sprites = R.range(0, 9)
-    .map(flatTo2d)
-    .map(getLittleSquare({size: parseInt(bgSquareSize / 3), borderWidth: 2}));
+
+const createSq = getLittleSquare({size: bgSquareSize / 3, borderWidth: 2});
+const sprites = [0, 1, 2].map(x =>
+    [0, 1, 2].map(y =>
+        createSq({x, y})
+)).flat();
+
+console.log('sprites', sprites);
 
 sprites
     .forEach(sprite => snyderSquareContainer.addChild(sprite));

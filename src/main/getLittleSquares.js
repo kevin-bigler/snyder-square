@@ -26,7 +26,9 @@ const getLittleSquare = ({size, borderWidth}) => {
      * @returns {PIXI.Sprite}
      */
     return ({x, y}) => {
+        console.log('get square for ', {x, y});
         const span = (size + borderWidth * 2);
+        console.log('span', span);
         const opts = {texture: littleSquareTexture, size, x: x * span, y: y * span};
         console.log('opts:', R.pick(['x', 'y', 'size'], opts));
         return getSnyderSquareSprite(opts);
