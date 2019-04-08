@@ -20,16 +20,16 @@ const bgSquareSize = getSnyderSquareSize(renderer);
 const {x, y} = getSnyderSquareCoords(renderer);
 console.log('bgSquareSize', bgSquareSize);
 console.log('bgSquareCoords', {x, y});
-
+snyderSquareContainer.x = x;
+snyderSquareContainer.y = y;
 
 const texture = getSnyderSquareTexture({size: bgSquareSize});
-// TODO: just set x & y after getting the sprite, ie remove x & y from params here
-const snyderSquareSprite = getSnyderSquareSprite({texture, size: bgSquareSize, x, y});
+const snyderSquareSprite = getSnyderSquareSprite({texture, size: bgSquareSize});
 
 
 snyderSquareContainer.addChild(snyderSquareSprite);
 
-//
+// TODO: figure out why this isn't working (replaces the [0, 1, 2].map... stuff below
 // const sprites = R.range(0, 9)
 //     .map(flatTo2d)
 //     .map(getLittleSquare({size: parseInt(bgSquareSize / 3), borderWidth: 2}));
