@@ -7,11 +7,38 @@ import Colors from './main/Colors';
 
 const colors = new Colors();
 
-const squarePos = {x: 250, y: 200};
-const bgOpts = {width: 100, height: 60, color: colors.white, borderWidth: 2, borderColor: colors.black};
-const numeralOpts = {x: 25, y: 25, width: 50, height: 30, borderWidth: 1, borderColor: colors.black};
+type Position = {
+    x: number,
+    y: number
+};
+
+type Size = {
+    width: number,
+    height: number
+};
+
+type Rect = {
+    position: Position,
+    size: Size
+};
+
+/**
+ * Get coords to center a subject within a container
+ *
+ * @param {Size} subject object to position
+ * @param {Size} container where subject is placed
+ * @returns {Position} center position x,y values
+ */
+const getCenter = (subject, container) => ({
+    x: container.width / 2 - subject.width / 2,
+    y: container.height / 2 - subject.height / 2,
+});
 
 const {renderer, stage} = initRenderer();
+
+const squarePos = {x: renderer.screen.width / 2, y: 25};
+const bgOpts = {width: 100, height: 60, color: colors.white, borderWidth: 2, borderColor: colors.black};
+const numeralOpts = {x: 25, y: 25, width: 50, height: 30, borderWidth: 1, borderColor: colors.black};
 
 const bgTexture = renderer.generateTexture(getRectGraphics(bgOpts));
 // const numeralTexture = renderer.generateTexture(getRectGraphics({}));
