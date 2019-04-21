@@ -12,10 +12,10 @@ export const getRectSprite = (opts: Rect & {texture: PIXI.Texture} =
     sprite.x = opts.position.x;
     sprite.y = opts.position.y;
 
-    if (width !== undefined) {
+    if (opts.size.width !== undefined) {
         sprite.width = opts.size.width;
     }
-    if (height !== undefined) {
+    if (opts.size.height !== undefined) {
         sprite.height = opts.size.height;
     }
 

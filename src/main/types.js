@@ -1,31 +1,22 @@
-type Position = {
+export type Position = {
     x: number,
     y: number
 };
-const getOrigin = () => ({x: 0, y: 0});
+export const getOrigin = () => ({x: 0, y: 0});
 
-type Size = {
+export type Size = {
     width: number,
     height: number
 };
 
-type Border = {
+export type Border = {
     color: number,
     width: number
 };
 
-type Rect = {
+export type Rect = {
     position: Position,
     size: Size
 };
 
-type Color = number | string;
-
-export {
-    Position,
-    getOrigin,
-    Size,
-    Border,
-    Rect,
-    Color
-};
+export type Color = number | string;

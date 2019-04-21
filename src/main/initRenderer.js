@@ -1,3 +1,5 @@
+// TODO: pass params here for configuring the stage size, background
+// TODO: extract the stage declaration -- it's kind of out of place here
 const initRenderer = () => {
     const width = 800;
     const height = 600;
