@@ -4,23 +4,9 @@ import * as PIXI from 'pixi.js';
 import {getRectGraphics, getRectSprite} from './main/getRect';
 import initRenderer from './main/initRenderer';
 import Colors from './main/Colors';
+import type {Rect, RectOpts, Size} from './main/types';
 
 const colors = new Colors();
-
-type Position = {
-    x: number,
-    y: number
-};
-
-type Size = {
-    width: number,
-    height: number
-};
-
-type Rect = {
-    position: Position,
-    size: Size
-};
 
 /**
  * Get coords to center a subject within a container
@@ -29,16 +15,39 @@ type Rect = {
  * @param {Size} container where subject is placed
  * @returns {Position} center position x,y values
  */
-const getCenter = (subject, container) => ({
+const getCenter = (subject: Size, container: Size): Position => ({
     x: container.width / 2 - subject.width / 2,
     y: container.height / 2 - subject.height / 2,
 });
 
+
+
 const {renderer, stage} = initRenderer();
 
-const squarePos = {x: renderer.screen.width / 2, y: 25};
-const bgOpts = {width: 100, height: 60, color: colors.white, borderWidth: 2, borderColor: colors.black};
-const numeralOpts = {x: 25, y: 25, width: 50, height: 30, borderWidth: 1, borderColor: colors.black};
+const square: Rect = {
+    size: {width: 25, height: 25},
+    // TODO: I'm not sure that this.size works for getCenter() here.... does it?
+    position: getCenter(this.size, renderer.screen)
+};
+
+const squareBg: RectOpts = {
+    size: square.size,
+    position: getOrigin(),
+    color: colors.white,
+    border: {
+        width: 2,
+        color: colors.black
+    }
+};
+
+const numeralSq: RectOpts = {
+    size: {width: square.size.width / 3, height: square.size.height / 3},
+    position: {x: 1 * (square.size.width / 3), y: 2 * (square.size.height / 3)},
+    border: {
+        width: 1,
+        color: colors.black
+    }
+};
 
 const bgTexture = renderer.generateTexture(getRectGraphics(bgOpts));
 // const numeralTexture = renderer.generateTexture(getRectGraphics({}));

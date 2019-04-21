@@ -1,32 +1,34 @@
 import Colors from './Colors';
+import type {Border, Color, Rect} from './types';
+import {getOrigin} from './types';
 
 const colors = new Colors();
+const getDefaultBorder = () => ({width: 0, color: colors.black});
 
+export const getRectSprite = (opts: Rect & {texture: PIXI.Texture} =
+                                  {position: getOrigin()}): PIXI.Sprite => {
+    const sprite = new PIXI.Sprite(opts.texture);
 
-// TODO: replace param object here with a flow type (`opts`) -- same with getRectGraphics (use same for both)
-export const getRectSprite = ({texture, color, width, height, x = 0, y = 0}) => {
-    const sprite = new PIXI.Sprite(texture);
-
-    sprite.x = x;
-    sprite.y = y;
+    sprite.x = opts.position.x;
+    sprite.y = opts.position.y;
 
     if (width !== undefined) {
-        sprite.width = width;
+        sprite.width = opts.size.width;
     }
     if (height !== undefined) {
-        sprite.height = height;
+        sprite.height = opts.size.height;
     }
 
     return sprite;
 };
 
-// TODO: change opts (param object values here) to be a flow type, replace definition here with just `opts`
-export const getRectGraphics = ({x = 0, y = 0, width, height, color, borderWidth = 0, borderColor = colors.black}) => {
+export const getRectGraphics = (opts: Rect & {border: Border, color: Color} =
+                                    {position: getOrigin(), border: getDefaultBorder()}): PIXI.Graphics => {
     const graphics = new PIXI.Graphics();
 
-    graphics.lineStyle(borderWidth, borderColor);
-    graphics.beginFill(color);
-    graphics.drawRect(x, y, width, height);
+    graphics.lineStyle(opts.border.width, opts.border.color);
+    graphics.beginFill(opts.color);
+    graphics.drawRect(opts.position.x, opts.position.y, opts.size.width, opts.size.height);
 
     return graphics;
 };
